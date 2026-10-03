@@ -1,0 +1,49 @@
+.card {
+  background: #fff;
+  border: 1px solid #dfe1e6;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background: #f4f5f7;
+  }
+}
+
+.ticket-code {
+  font-size: 11px;
+  color: #6b778c;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 4px 0 10px;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.story-points {
+  font-size: 11px;
+  background: #e9f2ff;
+  color: #0c66e4;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #0c66e4;
+  color: #fff;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

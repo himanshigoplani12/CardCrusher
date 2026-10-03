@@ -1,0 +1,21 @@
+.board-wrapper {
+  padding: 1.5rem;
+  font-family: sans-serif;
+}
+
+.board-header {
+  margin-bottom: 1.5rem;
+
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
+.board-columns {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
