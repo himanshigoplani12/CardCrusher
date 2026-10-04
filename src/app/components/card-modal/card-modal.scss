@@ -1,0 +1,102 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px 24px;
+  width: 90%;
+  max-width: 420px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .ticket-code {
+    font-size: 12px;
+    color: #6b778c;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #6b778c;
+  }
+}
+
+h2 {
+  font-size: 18px;
+  margin: 8px 0 12px;
+}
+
+.modal-tags {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+
+  span {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 10px;
+  }
+
+  .status-tag {
+    background: #e9f2ff;
+    color: #0c66e4;
+  }
+
+  .points-tag {
+    background: #f4f5f7;
+    color: #44546f;
+  }
+}
+
+.description {
+  font-size: 13px;
+  color: #44546f;
+  margin-bottom: 14px;
+}
+
+.modal-meta {
+  font-size: 13px;
+  margin-bottom: 14px;
+
+  div {
+    margin-bottom: 4px;
+  }
+}
+
+.acceptance-criteria {
+  h4 {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #6b778c;
+    margin-bottom: 8px;
+  }
+
+  .criterion {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    margin-bottom: 6px;
+
+    .completed {
+      text-decoration: line-through;
+      color: #6b778c;
+    }
+  }
+}

@@ -1,1 +1,32 @@
-<p>card-modal works!</p>
+<div class="modal-overlay" *ngIf="selectedCard$ | async as card" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+      <span class="ticket-code">{{ card.ticketCode }}</span>
+      <button class="close-btn" (click)="closeModal()">×</button>
+    </div>
+
+    <h2>{{ card.title }}</h2>
+
+    <div class="modal-tags">
+      <span class="status-tag">{{ card.status }}</span>
+      <span class="points-tag">{{ card.storyPoints }} pts</span>
+    </div>
+
+    <p class="description">{{ card.description }}</p>
+
+    <div class="modal-meta">
+      <div><strong>Owner:</strong> {{ card.owner }}</div>
+      <div><strong>Assignee:</strong> {{ card.assignee }}</div>
+    </div>
+
+    <div class="acceptance-criteria">
+      <h4>Acceptance Criteria</h4>
+      <div *ngFor="let criterion of card.acceptanceCriteria" class="criterion">
+        <input type="checkbox" [checked]="criterion.isCompleted" disabled>
+        <span [class.completed]="criterion.isCompleted">{{ criterion.text }}</span>
+      </div>
+    </div>
+
+  </div>
+</div>

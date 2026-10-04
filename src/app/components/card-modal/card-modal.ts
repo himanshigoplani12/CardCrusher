@@ -1,9 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Data } from '../../services/data';
 
 @Component({
-  imports: [],
+  imports: [CommonModule],
   selector: 'app-card-modal',
   styleUrl: './card-modal.scss',
   templateUrl: './card-modal.html',
 })
-export class CardModalComponent {}
+export class CardModalComponent {
+  private dataService = inject(Data);
+  selectedCard$ = this.dataService.selectedCard$;
+
+  closeModal() {
+    this.dataService.closeCardModal();
+  }
+}
