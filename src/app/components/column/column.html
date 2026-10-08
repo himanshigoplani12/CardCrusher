@@ -4,10 +4,20 @@
     <span class="card-count">{{ getCardsForColumn(allCards).length }}</span>
   </div>
 
-  <div class="column-cards">
+  <div 
+    class="column-cards"
+    cdkDropList
+    [id]="column.id.toString()"
+    [cdkDropListData]="getCardsForColumn(allCards)"
+    [cdkDropListConnectedTo]="getConnectedDropLists()"
+    (cdkDropListDropped)="onCardDrop($event)"
+  >
     <app-card
       *ngFor="let card of getCardsForColumn(allCards)"
-      [card]="card">
+      [card]="card"
+      cdkDrag
+      [cdkDragData]="card"
+    >
     </app-card>
   </div>
 </div>

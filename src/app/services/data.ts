@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { BehaviorSubject } from 'rxjs';
 import { Card } from '../models/card.model';
 import { Column } from '../models/column.model';
@@ -119,8 +120,8 @@ export class Data {
       createdAt: new Date(),
       updatedAt: new Date(),
       acceptanceCriteria: [
-        { text: 'Doctor can upload prescription PDF/image', isCompleted: false },
-        { text: 'Patient can view past prescriptions', isCompleted: false },
+        { text: 'Doctor can upload prescription PDF/image', isCompleted: true },
+        { text: 'Patient can view past prescriptions', isCompleted: true },
       ],
     },
   ];
@@ -160,5 +161,50 @@ export class Data {
     this.selectedCardSubject.next(null);
   }
 
+  getAllColumnIds(): string[] {
+    return this.columns.map((column) => column.id.toString());
+  }
+
+  moveCard(cardId: number, fromColumnId: number, toColumnId: number) {
+    const fromColumn = this.columns.find((col) => col.id === fromColumnId);
+    const toColumn = this.columns.find((col) => col.id === toColumnId);
+
+    if (!fromColumn || !toColumn) {
+      console.error('Invalid column IDs provided for moving card.');
+      return;
+    }
+
+    fromColumn.cardIds = fromColumn.cardIds.filter((id) => id !== cardId);
+    toColumn.cardIds.push(cardId);
+    // toColumn.cardIds = [...toColumn.cardIds, cardId];
+
+    const card = this.cards.find((c) => c.id === cardId);
+    if (card) {
+      card.status = this.getStatusFromColumnName(toColumn.name);
+      card.updatedAt = new Date();
+    }
+
+    this.boardSubject.next(this.board);
+    this.cardsSubject.next(this.cards);
+  }
+
+  getStatusFromColumnName(columnName: string): string {
+    return columnName.toLowerCase().replace(/\s+/g, '-');
+  }
+
+  reorderCardsInColumn(columnId: number, fromIndex: number, toIndex: number) {
+    const column = this.columns.find((col) => col.id === columnId);
+    if (!column) {
+      console.error('Invalid column ID provided for reordering cards.');
+      return;
+    }
+
+    const ids = [...column.cardIds];
+    moveItemInArray(ids, fromIndex, toIndex);
+    column.cardIds = ids;
+
+    this.boardSubject.next(this.board);
+    this.cardsSubject.next(this.cards);
+  }
   constructor() {}
 }

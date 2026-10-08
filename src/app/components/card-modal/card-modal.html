@@ -9,7 +9,7 @@
     <h2>{{ card.title }}</h2>
 
     <div class="modal-tags">
-      <span class="status-tag">{{ card.status }}</span>
+      <span class="status-tag">{{ card.status | formatStatus }}</span>
       <span class="points-tag">{{ card.storyPoints }} pts</span>
     </div>
 
