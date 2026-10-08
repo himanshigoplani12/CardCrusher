@@ -165,7 +165,7 @@ export class Data {
     return this.columns.map((column) => column.id.toString());
   }
 
-  moveCard(cardId: number, fromColumnId: number, toColumnId: number) {
+  moveCard(cardId: number, fromColumnId: number, toColumnId: number, toIndex: number) {
     const fromColumn = this.columns.find((col) => col.id === fromColumnId);
     const toColumn = this.columns.find((col) => col.id === toColumnId);
 
@@ -175,8 +175,13 @@ export class Data {
     }
 
     fromColumn.cardIds = fromColumn.cardIds.filter((id) => id !== cardId);
-    toColumn.cardIds.push(cardId);
+    // toColumn.cardIds.push(cardId);
     // toColumn.cardIds = [...toColumn.cardIds, cardId];
+    toColumn.cardIds = [
+      ...toColumn.cardIds.slice(0, toIndex),
+      cardId,
+      ...toColumn.cardIds.slice(toIndex),
+    ];
 
     const card = this.cards.find((c) => c.id === cardId);
     if (card) {

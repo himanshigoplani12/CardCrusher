@@ -29,12 +29,17 @@ export class ColumnComponent {
 
   onCardDrop(event: CdkDragDrop<Card[]>) {
     if(event.previousContainer === event.container) {
+      this.dataService.reorderCardsInColumn(
+        this.column.id,
+        event.previousIndex,
+        event.currentIndex
+      );
       return;
     }
 
     const cardId = event.item.data.id;
     const fromColumnId = Number(event.previousContainer.id);
     const toColumnId = Number(event.container.id);
-    this.dataService.moveCard(cardId, fromColumnId, toColumnId);
+    this.dataService.moveCard(cardId, fromColumnId, toColumnId, event.currentIndex);
   }
 }
