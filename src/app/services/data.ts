@@ -149,6 +149,8 @@ export class Data {
   private selectedCardSubject = new BehaviorSubject<Card | null>(null);
   selectedCard$ = this.selectedCardSubject.asObservable();
 
+  private readonly storageKey = 'card-crusher-data';
+
   getCardById(id: number): Card | undefined {
     return this.cards.find((c) => c.id === id);
   }
@@ -191,6 +193,8 @@ export class Data {
 
     this.boardSubject.next(this.board);
     this.cardsSubject.next(this.cards);
+
+    this.saveToStorage();
   }
 
   getStatusFromColumnName(columnName: string): string {
@@ -210,6 +214,40 @@ export class Data {
 
     this.boardSubject.next(this.board);
     this.cardsSubject.next(this.cards);
+
+    this.saveToStorage();
   }
-  constructor() {}
+
+  private saveToStorage() {
+    localStorage.setItem(
+      this.storageKey,
+      JSON.stringify({ cards: this.cards, columns: this.columns })
+    );
+  }
+
+  private loadFromStorage() {
+    try {
+      const raw = localStorage.getItem(this.storageKey);
+      if(!raw) return;
+
+      const saved = JSON.parse(raw);
+      this.cards = saved.cards.map((c: any) => ({
+        ...c,
+        createdAt: new Date(c.createdAt),
+        updatedAt: new Date(c.updatedAt),
+      }));
+      this.columns = saved.columns;
+      this.board = { ...this.board, columns: this.columns };
+
+      this.boardSubject.next(this.board);
+      this.cardsSubject.next(this.cards);
+    }
+    catch {
+      localStorage.removeItem(this.storageKey);
+    }
+  }
+    
+  constructor() {
+    this.loadFromStorage();
+  }
 }
