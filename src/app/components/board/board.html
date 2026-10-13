@@ -1,6 +1,7 @@
 <div class="board-wrapper" *ngIf="board$ | async as board">
   <div class="board-header">
     <h1>{{ board.name }}</h1>
+    <button class="add-btn" (click)="openAddForm()">New card</button>
   </div>
   <div class="board-columns">
     <app-column *ngFor="let column of board.columns" [column]="column"></app-column>

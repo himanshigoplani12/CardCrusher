@@ -13,4 +13,8 @@ import { Data } from '../../services/data';
 export class BoardComponent {
   private dataService = inject(Data);
   board$ = this.dataService.board$;
+
+  openAddForm() {
+    this.dataService.openAddForm();
+  }
 }

@@ -1,0 +1,50 @@
+<div class="form-overlay" *ngIf="state() as s" (click)="cancel()">
+  <form
+    class="form-content"
+    [formGroup]="form"
+    (ngSubmit)="save()"
+    (click)="$event.stopPropagation()">
+
+    <h2>{{ s.mode === 'add' ? 'Add new card' : 'Edit ' + s.card?.ticketCode }}</h2>
+
+    <label>
+      Title *
+      <input type="text" formControlName="title" placeholder="e.g. Build lab report upload">
+    </label>
+    <p class="error" *ngIf="form.controls.title.touched && form.controls.title.invalid">
+      Title is required (max 80 characters)
+    </p>
+
+    <label>
+      Description
+      <textarea formControlName="description" rows="3"></textarea>
+    </label>
+
+    <label>
+      Story points *
+      <input type="number" formControlName="storyPoints" min="1" max="21">
+    </label>
+    <p class="error" *ngIf="form.controls.storyPoints.touched && form.controls.storyPoints.invalid">
+      Story points must be between 1 and 21
+    </p>
+
+    <label *ngIf="s.mode === 'add'">
+      Column
+      <select formControlName="columnId">
+        <option *ngFor="let col of columnOptions" [ngValue]="col.id">{{ col.name }}</option>
+      </select>
+    </label>
+
+    <label>
+      Acceptance criteria (one per line)
+      <textarea formControlName="criteria" rows="4"></textarea>
+    </label>
+
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn-primary">
+        {{ s.mode === 'add' ? 'Add card' : 'Save changes' }}
+      </button>
+    </div>
+  </form>
+</div>

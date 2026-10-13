@@ -5,9 +5,15 @@ import { Card } from '../models/card.model';
 import { Column } from '../models/column.model';
 import { Board } from '../models/board.model';
 
+export interface CardFormState {
+  mode : 'add' | 'edit';
+  card?: Card;
+}
+
 @Injectable({
   providedIn: 'root',
 })
+
 export class Data {
   private cards: Card[] = [
     {
@@ -149,6 +155,9 @@ export class Data {
   private selectedCardSubject = new BehaviorSubject<Card | null>(null);
   selectedCard$ = this.selectedCardSubject.asObservable();
 
+  private formStateSubject = new BehaviorSubject<CardFormState | null>(null);
+  formState$ = this.formStateSubject.asObservable();
+
   private readonly storageKey = 'card-crusher-data';
 
   getCardById(id: number): Card | undefined {
@@ -167,6 +176,12 @@ export class Data {
     return this.columns.map((column) => column.id.toString());
   }
 
+  private commit() {
+    this.boardSubject.next(this.board);
+    this.cardsSubject.next(this.cards);
+    this.saveToStorage();
+  }
+  
   moveCard(cardId: number, fromColumnId: number, toColumnId: number, toIndex: number) {
     const fromColumn = this.columns.find((col) => col.id === fromColumnId);
     const toColumn = this.columns.find((col) => col.id === toColumnId);
@@ -191,10 +206,7 @@ export class Data {
       card.updatedAt = new Date();
     }
 
-    this.boardSubject.next(this.board);
-    this.cardsSubject.next(this.cards);
-
-    this.saveToStorage();
+    this.commit();
   }
 
   getStatusFromColumnName(columnName: string): string {
@@ -212,10 +224,7 @@ export class Data {
     moveItemInArray(ids, fromIndex, toIndex);
     column.cardIds = ids;
 
-    this.boardSubject.next(this.board);
-    this.cardsSubject.next(this.cards);
-
-    this.saveToStorage();
+    this.commit();
   }
 
   private saveToStorage() {
@@ -246,7 +255,96 @@ export class Data {
       localStorage.removeItem(this.storageKey);
     }
   }
-    
+
+  openAddForm() {
+    this.formStateSubject.next({ mode: 'add' });
+  }
+
+  openEditForm(cardId: number) {
+    const card = this.getCardById(cardId);
+    if (card) {
+      this.formStateSubject.next({ mode: 'edit', card });
+    }
+  }
+
+  closeForm() {
+    this.formStateSubject.next(null);
+  }
+
+  getColumnOptions() {
+    return this.columns.map((col) => ({ id: col.id, name: col.name }));
+  }
+
+  private generateId(): number {
+    let id: number;
+    do {
+      id = Math.floor(1000 + Math.random() * 99000);
+    } while (this.cards.some((card) => card.id === id));
+    return id;
+  }
+
+  addCard(
+    data: { title: string; description: string; storyPoints: number; criteria: string[] },
+    columnId: number
+  ){
+    const column = this.columns.find((col) => col.id === columnId);
+    if (!column) {
+      console.error('Invalid column ID provided for adding card.');
+      return;
+    }
+
+    const id = this.generateId();
+    const now = new Date();
+
+    const card: Card = {
+      id,
+      ticketCode: `CC-${id}`,
+      title: data.title,
+      description: data.description,
+      status: this.getStatusFromColumnName(column.name),
+      storyPoints: data.storyPoints,
+      owner: 'Himanshi Goplani',
+      assignee: 'Himanshi Goplani',
+      createdAt: now,
+      updatedAt: now,
+      acceptanceCriteria: data.criteria.map((text) => ({ text, isCompleted: false })),
+    };
+
+    this.cards = [...this.cards, card];
+    column.cardIds = [...column.cardIds, id];
+    this.commit();
+  }
+
+  updateCard(
+    id: number,
+    changes: { title: string; description: string; storyPoints: number },
+    criteriaTexts: string[]
+  ){
+    this.cards = this.cards.map((card) => {
+      if (card.id !== id) return card;
+
+      return {
+        ...card,
+        ...changes,
+        acceptanceCriteria: criteriaTexts.map((text) => ({ 
+          text, 
+          isCompleted: card.acceptanceCriteria.find((c) => c.text === text)?.isCompleted ?? false
+        })),
+        updatedAt: new Date(),
+      };
+    });
+    this.commit();
+  }
+  
+  deleteCard(cardId: number) {
+    this.cards = this.cards.filter((card) => card.id !== cardId);
+    this.columns.forEach((column) => {
+      column.cardIds = column.cardIds.filter((id) => id !== cardId);
+    });
+    this.selectedCardSubject.next(null);
+    this.commit();
+  }
+
   constructor() {
     this.loadFromStorage();
   }

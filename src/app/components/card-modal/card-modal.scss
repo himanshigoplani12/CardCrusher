@@ -100,3 +100,27 @@ h2 {
     }
   }
 }
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+
+  button {
+    padding: 7px 14px;
+    border-radius: 6px;
+    border: 1px solid #dfe1e6;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .btn-edit {
+    background: #f4f5f7;
+  }
+
+  .btn-delete {
+    background: #fff;
+    color: #c9372c;
+    border-color: #c9372c;
+  }
+}

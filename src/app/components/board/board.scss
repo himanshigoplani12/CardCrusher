@@ -6,6 +6,9 @@
 }
 
 .board-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 1.5rem;
 
   h1 {
@@ -14,6 +17,16 @@
     margin: 0;
     color: #172b4d;
   }
+}
+
+.add-btn {
+  background: #0c66e4;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
 }
 
 .board-columns {
