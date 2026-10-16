@@ -22,10 +22,10 @@
 
     <div class="acceptance-criteria">
       <h4>Acceptance Criteria</h4>
-      <div *ngFor="let criterion of card.acceptanceCriteria" class="criterion">
-        <input type="checkbox" [checked]="criterion.isCompleted" disabled>
+      <label *ngFor="let criterion of card.acceptanceCriteria; let i = index" class="criterion">
+        <input type="checkbox" [checked]="criterion.isCompleted" (click)="toggleCriterion(card.id, i)">
         <span [class.completed]="criterion.isCompleted">{{ criterion.text }}</span>
-      </div>
+      </label>
     </div>
 
     <div class="modal-actions">

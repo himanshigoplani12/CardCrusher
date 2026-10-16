@@ -345,6 +345,23 @@ export class Data {
     this.commit();
   }
 
+  toggleCriterion(cardId: number, index: number) {
+    this.cards = this.cards.map((card) => {
+      if (card.id !== cardId) return card;
+
+      return {
+        ...card,
+        acceptanceCriteria: card.acceptanceCriteria.map((criterion, i) => 
+          i === index ? { ...criterion, isCompleted: !criterion.isCompleted } : criterion
+        ),
+        updatedAt: new Date(),
+      };
+    });
+
+    this.commit();
+    this.selectedCardSubject.next(this.getCardById(cardId) || null);
+  }
+
   constructor() {
     this.loadFromStorage();
   }

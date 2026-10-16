@@ -3,7 +3,8 @@
   <p class="card-title">{{ card.title }}</p>
 
   <div class="card-footer">
-    <span class="story-points">{{ card.storyPoints }} pts</span>
+    <span class="story-points">{{ card.storyPoints }} SP</span>
+    <span class="criteria-count">{{ completedCount }}/{{ card.acceptanceCriteria.length }}</span>
     <div class="avatar">{{ assigneeInitials }}</div>
   </div>
 </div>

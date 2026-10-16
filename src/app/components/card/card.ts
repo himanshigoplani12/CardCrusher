@@ -23,4 +23,8 @@ export class CardComponent {
   openCard() {
     this.dataService.selectCard(this.card.id);
   }
+
+  get completedCount(): number {
+    return this.card.acceptanceCriteria.filter(c => c.isCompleted).length;
+  }
 }

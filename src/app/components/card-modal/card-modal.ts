@@ -28,4 +28,8 @@ export class CardModalComponent {
       this.dataService.deleteCard(card.id);
     }
   }
+
+  toggleCriterion(cardId: number, index: number) {
+    this.dataService.toggleCriterion(cardId, index);
+  }
 }
