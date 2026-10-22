@@ -1,7 +1,8 @@
 .board-wrapper {
   padding: 1.5rem;
   font-family: 'Segoe UI', sans-serif;
-  background: #fafbfc;
+  background: var(--bg-page);
+  color: var(--text-primary);
   min-height: 100vh;
 }
 
@@ -15,18 +16,33 @@
     font-size: 22px;
     font-weight: 600;
     margin: 0;
-    color: #172b4d;
+    color: var(--text-primary);
   }
 }
 
-.add-btn {
-  background: #0c66e4;
-  color: #fff;
-  border: none;
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.add-btn,
+.theme-btn {
   border-radius: 6px;
   padding: 8px 14px;
   font-size: 13px;
   cursor: pointer;
+}
+
+.add-btn {
+  background: var(--accent);
+  color: var(--accent-text);
+  border: none;
+}
+
+.theme-btn {
+  background: var(--bg-column);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
 }
 
 .board-columns {

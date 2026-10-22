@@ -1,25 +1,26 @@
 .card {
-  background: #fff;
-  border: 1px solid #dfe1e6;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 10px 12px;
   margin-bottom: 8px;
   cursor: pointer;
 
   &:hover {
-    background: #f4f5f7;
+    background: var(--bg-card-hover);
   }
 }
 
 .ticket-code {
   font-size: 11px;
-  color: #6b778c;
+  color: var(--text-muted);
 }
 
 .card-title {
   font-size: 14px;
   font-weight: 500;
   margin: 4px 0 10px;
+  color: var(--text-primary);
 }
 
 .card-footer {
@@ -30,25 +31,25 @@
 
 .story-points {
   font-size: 11px;
-  background: #e9f2ff;
-  color: #0c66e4;
-  padding: 2px 8px;
+  background: var(--bg-tag);
+  color: var(--text-accent);
+  padding: 2px 8px 3px 8px;
   border-radius: 10px;
+}
+
+.criteria-progress {
+  font-size: 11px;
+  color: var(--text-muted);
 }
 
 .avatar {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #0c66e4;
-  color: #fff;
+  background: var(--accent);
+  color: var(--accent-text);
   font-size: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.criteria-count {
-  font-size: 11px;
-  color: #6b778c;
 }

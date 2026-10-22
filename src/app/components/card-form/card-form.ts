@@ -1,8 +1,32 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Data, CardFormState } from '../../services/data';
+
+const MAX_CRITERIA = 10;
+const MAX_DESCRIPTION = 255;
+
+function parseCriteria(text: string): string[] {
+  return text
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.length > 0);
+}
+
+function maxCriteriaValidator(max: number): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const count = parseCriteria(control.value ?? '').length;
+    return count > max ? { maxCriteria: { max, actual: count } } : null;
+  };
+}
 
 @Component({
   imports: [CommonModule, ReactiveFormsModule],
@@ -10,6 +34,7 @@ import { Data, CardFormState } from '../../services/data';
   styleUrl: './card-form.scss',
   templateUrl: './card-form.html',
 })
+
 export class CardFormComponent {
   private dataService = inject(Data);
   private fb = inject(FormBuilder);
@@ -17,12 +42,19 @@ export class CardFormComponent {
   state = signal<CardFormState | null>(null);
   columnOptions = this.dataService.getColumnOptions();
 
+  readonly maxCriteria = MAX_CRITERIA;
+  readonly maxDescription = MAX_DESCRIPTION;
+
+  get criteriaCount(): number {
+    return parseCriteria(this.form.controls.criteria.value ?? '').length;
+  }
+
   form = this.fb.nonNullable.group({
     title: ['', [Validators.required, Validators.maxLength(80)]],
-    description: [''],
+    description: ['', [Validators.maxLength(MAX_DESCRIPTION)]],
     storyPoints: [1, [Validators.required, Validators.min(1), Validators.max(21)]],
     columnId: [1],
-    criteria: ['']
+    criteria: ['', [maxCriteriaValidator(MAX_CRITERIA)]]
   });
 
   constructor() {
@@ -64,10 +96,7 @@ export class CardFormComponent {
     }
 
     const value = this.form.getRawValue();
-    const criteria = value.criteria
-      .split('\n')
-      .map(line => line.trim())
-      .filter(line => line.length > 0);
+    const criteria = parseCriteria(value.criteria ?? '');
 
     const cardData = {
       title: value.title.trim(),

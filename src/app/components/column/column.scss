@@ -1,7 +1,7 @@
 .column-wrapper {
   min-width: 240px;
   flex: 0 0 auto;
-  background: #f4f5f7;
+  background: var(--bg-column);
   border-radius: 8px;
   padding: 10px;
 }
@@ -16,7 +16,7 @@
   h3 {
     font-size: 12px;
     font-weight: 600;
-    color: #44546f;
+    color: var(--text-secondary);
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.3px;
@@ -24,9 +24,9 @@
 
   .card-count {
     font-size: 11px;
-    color: #6b778c;
-    background: #dfe1e6;
-    padding: 1px 7px;
+    color: var(--text-muted);
+    background: var(--bg-badge);
+    padding: 1px 7px 2px 7px;
     border-radius: 10px;
     font-weight: 600;
   }

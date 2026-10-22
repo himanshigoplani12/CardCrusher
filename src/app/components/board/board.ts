@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ColumnComponent } from '../column/column';
-import { Board } from '../../models/board.model';
 import { Data } from '../../services/data';
+import { Theme } from '../../services/theme';
 
 @Component({
   imports: [ColumnComponent, CommonModule],
@@ -13,6 +13,13 @@ import { Data } from '../../services/data';
 export class BoardComponent {
   private dataService = inject(Data);
   board$ = this.dataService.board$;
+
+  private themeService = inject(Theme);
+  mode = this.themeService.mode;
+
+  toggleTheme() {
+    this.themeService.toggle();
+  }
 
   openAddForm() {
     this.dataService.openAddForm();

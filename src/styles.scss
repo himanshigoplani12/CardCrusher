@@ -1,1 +1,47 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --bg-page: #fafbfc;
+  --bg-column: #f4f5f7;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f4f5f7;
+  --bg-surface: #ffffff;
+  --bg-input: #ffffff;
+  --bg-badge: #dfe1e6;
+  --bg-tag: #e9f2ff;
+  --text-primary: #172b4d;
+  --text-secondary: #44546f;
+  --text-muted: #6b778c;
+  --text-accent: #0c66e4;
+  --border: #dfe1e6;
+  --accent: #0c66e4;
+  --accent-text: #ffffff;
+  --danger: #c9372c;
+  --overlay: rgba(0, 0, 0, 0.5);
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --bg-page: #161a1d;
+  --bg-column: #22272b;
+  --bg-card: #2c333a;
+  --bg-card-hover: #38414a;
+  --bg-surface: #22272b;
+  --bg-input: #1d2125;
+  --bg-badge: #38414a;
+  --bg-tag: #1c2b41;
+  --text-primary: #dee4ea;
+  --text-secondary: #b6c2cf;
+  --text-muted: #8c9bab;
+  --text-accent: #579dff;
+  --border: #3b444c;
+  --accent: #1d7afc;
+  --accent-text: #ffffff;
+  --danger: #f87168;
+  --overlay: rgba(0, 0, 0, 0.65);
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+}

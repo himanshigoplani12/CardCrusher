@@ -19,6 +19,12 @@
       Description
       <textarea formControlName="description" rows="3"></textarea>
     </label>
+    <p class="hint" [class.over]="form.controls.description.value.length > maxDescription">
+      {{ form.controls.description.value.length }}/{{ maxDescription }}
+    </p>
+    <p class="error" *ngIf="form.controls.description.invalid">
+      Description can be at most {{ maxDescription }} characters
+    </p>
 
     <label>
       Story points *
@@ -39,6 +45,12 @@
       Acceptance criteria (one per line)
       <textarea formControlName="criteria" rows="4"></textarea>
     </label>
+    <p class="hint" [class.over]="criteriaCount > maxCriteria">
+      {{ criteriaCount }}/{{ maxCriteria }} points
+    </p>
+    <p class="error" *ngIf="form.controls.criteria.errors?.['maxCriteria']">
+      You can add at most {{ maxCriteria }} acceptance criteria
+    </p>
 
     <div class="form-actions">
       <button type="button" class="btn-secondary" (click)="cancel()">Cancel</button>
